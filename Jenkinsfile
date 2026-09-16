@@ -32,17 +32,23 @@ pipeline {
             }
         }
 
-        stage('Verify Agent Environment') {
+        stage('Verify Checkout') {
             steps {
-                echo '=== 1. Tool Availability Check ==='
-                sh 'git --version'
-                sh 'node -v || echo "Node.js not installed"'
-                sh 'npm -v || echo "npm not installed"'
-                sh 'docker --version || echo "Docker CLI not installed"'
-                
-                echo '=== 2. Checked-Out Application Structure ==='
-                sh 'ls -la application/'
-                sh 'ls -la application/app/'
+                sh 'find . -maxdepth 2 -type f | head -50'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        sonar-scanner \
+                          -Dsonar.projectKey=assignment6-app \
+                          -Dsonar.projectName="Assignment 6 App" \
+                          -Dsonar.sources=application/app/src \
+                          -Dsonar.host.url=http://assignment6-sonarqube:9000
+                    '''
+                }
             }
         }
     }
