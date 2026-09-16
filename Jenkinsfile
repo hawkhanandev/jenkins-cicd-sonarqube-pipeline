@@ -21,7 +21,7 @@ pipeline {
                 dir('application') {
                     git(
                         branch: 'main',
-                        url: 'YOUR_APP_REPO'
+                        url: 'https://github.com/hawkhanandev/Ansible-Roles-Docker-Multi-Stage-Builds'
                     )
                 }
             }
