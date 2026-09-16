@@ -3,6 +3,10 @@ pipeline {
         label 'assignment6-agent'
     }
 
+    environment {
+        EC2_SERVER_IP = '3.85.204.187'
+    }
+
     stages {
         stage('Clean Workspace') {
             steps {
@@ -109,8 +113,6 @@ pipeline {
         }
     }
 
-    environment {
-        EC2_SERVER_IP = '3.85.204.187'
     post {
         success {
             emailext(
